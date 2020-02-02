@@ -1,5 +1,5 @@
 variable "key_name" {
-  default = "test"
+  default = "test-301"
 }
 
 variable "pvt_key" {
