@@ -30,6 +30,41 @@ node {
    stage('Archive-Artifacts') {
    archiveArtifacts 'target/*.war'
   }
+  
+  stage('Sonar Analysis'){
+        withSonarQubeEnv('SonarQube'){
+         sh 'mvn sonar:sonar'
+        }
+        }
+  
+  
+  stage('Jfrog Artifacory Upload') {
+        def server= Artifactory.server 'Artifactory'
+                    def uploadSpec= """{
+                        "files": [{
+                        "pattern": "/root/.jenkins/workspace/pet-302/01-Jenkins/Code/petclinic/target/*.war",
+                        "target": "petclinic"}]
+                    }"""
+        server.upload(uploadSpec)
+        
+        }
+     
+    stage('Jfrog Artifactory download'){
+    def server= Artifactory.server 'Artifactory'
+    def downloadSpec = """{
+    "files": [
+    {
+      "pattern": "petclinic/*.war",
+      "target": "/home/mtadminnuvepro/artifacts/"
+      
+    }
+    ]
+    }"""
+    server.download(downloadSpec)
+   
+}
+
+
    stage('Docker-Stage-Deployment') {
    sh label: '', script: 'docker-compose up -d --build'
   }
@@ -60,7 +95,7 @@ notify('Job Completed')
 
 def notify(status){
     emailext (
-	to: "amitvashist7@gmail.com",
+	to: "sowmyarayapureddygmail.com",
 	subject: "${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 	 body: """<p>${status}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
 	<p>Check console output at <a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a></p>""",
