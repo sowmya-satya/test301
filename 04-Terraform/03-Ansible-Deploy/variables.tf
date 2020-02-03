@@ -1,9 +1,9 @@
 variable "key_name" {
-  default = "test-301"
+  default = "sowmi"
 }
 
 variable "pvt_key" {
-  default = "/root/.ssh/myubuntu2.pem"
+  default = "/root/.ssh/sowmi.pem"
 }
 
 variable "us-east-zones" {
@@ -11,5 +11,5 @@ variable "us-east-zones" {
 }
 
 variable "sg-id" {
-  default = "sg-07863f9a49aca2348"
+  default = "sg-0133b777cba7f2ae6"
 }
