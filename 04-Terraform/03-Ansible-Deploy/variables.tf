@@ -1,9 +1,9 @@
 variable "key_name" {
-  default = "sowmi"
+  default = "california_keypair"
 }
 
 variable "pvt_key" {
-  default = "/root/.ssh/sowmi.pem"
+  default = "/root/.ssh/california_keypair.pem"
 }
 
 variable "us-east-zones" {
